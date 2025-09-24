@@ -1,0 +1,79 @@
+-- =============================================
+-- SQL DEVELOPER INTERNSHIP - TASK 2
+-- Data Insertion and Handling Nulls
+-- =============================================
+
+-- 1️⃣ Create Employees table
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50),
+    department VARCHAR(50) DEFAULT 'General',
+    salary DECIMAL(10,2),
+    hire_date DATE
+);
+
+-- 2️⃣ Insert data into Employees table
+
+-- Insert all columns
+INSERT INTO Employees (emp_id, first_name, last_name, department, salary, hire_date)
+VALUES 
+(1, 'John', 'Doe', 'HR', 50000, '2025-09-24'),
+(2, 'Alice', 'Smith', 'IT', 60000, '2025-08-15'),
+(3, 'Bob', NULL, 'Finance', 55000, '2025-07-10');
+
+-- Insert partial columns (NULLs or defaults applied)
+INSERT INTO Employees (emp_id, first_name)
+VALUES 
+(4, 'Charlie'),
+(5, 'Diana');
+
+-- 3️⃣ Update data
+
+-- Update a single row
+UPDATE Employees
+SET salary = 65000
+WHERE emp_id = 2;
+
+-- Update multiple rows
+UPDATE Employees
+SET department = 'Operations'
+WHERE department = 'General';
+
+-- 4️⃣ Handling NULL values
+
+-- Find rows with NULL last_name
+SELECT * FROM Employees
+WHERE last_name IS NULL;
+
+-- Update NULL last_name to 'Unknown'
+UPDATE Employees
+SET last_name = 'Unknown'
+WHERE last_name IS NULL;
+
+-- 5️⃣ Delete data
+
+-- Delete a specific row
+DELETE FROM Employees
+WHERE emp_id = 5;
+
+-- Delete using condition
+DELETE FROM Employees
+WHERE department = 'Finance';
+
+-- 6️⃣ Insert using SELECT (duplicate HR employees with new IDs)
+INSERT INTO Employees (emp_id, first_name, last_name, department, salary, hire_date)
+SELECT emp_id + 100, first_name, last_name, department, salary, hire_date
+FROM Employees
+WHERE department = 'HR';
+
+-- 7️⃣ Select all data to see final table
+SELECT * FROM Employees;
+
+-- =============================================
+-- Optional Transaction Example
+-- =============================================
+-- BEGIN TRANSACTION;
+-- DELETE FROM Employees WHERE emp_id = 4;
+-- ROLLBACK; -- undo deletion
+-- COMMIT;   -- commit changes permanently
