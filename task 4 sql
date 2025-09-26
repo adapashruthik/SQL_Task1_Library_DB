@@ -1,0 +1,69 @@
+-- ==============================
+-- Task 4: Aggregate Functions and Grouping
+-- ==============================
+
+-- 1. Create Employees Table
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    name VARCHAR(50),
+    department VARCHAR(50),
+    salary DECIMAL(10,2),
+    city VARCHAR(50)
+);
+
+-- 2. Insert Sample Data
+INSERT INTO Employees (emp_id, name, department, salary, city) VALUES
+(1, 'Alice', 'HR', 40000, 'Delhi'),
+(2, 'Bob', 'Finance', 55000, 'Mumbai'),
+(3, 'Charlie', 'Finance', 60000, 'Delhi'),
+(4, 'David', 'IT', 75000, 'Bangalore'),
+(5, 'Eve', 'IT', 72000, 'Bangalore'),
+(6, 'Frank', 'HR', 42000, 'Hyderabad'),
+(7, 'Grace', 'Finance', 50000, 'Mumbai');
+
+-- ==============================
+-- Aggregate Function Queries
+-- ==============================
+
+-- 1. SUM: Total salary of all employees
+SELECT SUM(salary) AS Total_Salary FROM Employees;
+
+-- 2. COUNT: Number of employees
+SELECT COUNT(*) AS Total_Employees FROM Employees;
+
+-- 3. AVG: Average salary
+SELECT AVG(salary) AS Average_Salary FROM Employees;
+
+-- 4. GROUP BY: Salary by Department
+SELECT department, SUM(salary) AS Total_Salary
+FROM Employees
+GROUP BY department;
+
+-- 5. COUNT per Department
+SELECT department, COUNT(*) AS Employee_Count
+FROM Employees
+GROUP BY department;
+
+-- 6. AVG per Department
+SELECT department, ROUND(AVG(salary),2) AS Avg_Salary
+FROM Employees
+GROUP BY department;
+
+-- 7. GROUP BY Multiple Columns (department + city)
+SELECT department, city, COUNT(*) AS Employees
+FROM Employees
+GROUP BY department, city;
+
+-- 8. HAVING: Departments with average salary > 50000
+SELECT department, AVG(salary) AS Avg_Salary
+FROM Employees
+GROUP BY department
+HAVING AVG(salary) > 50000;
+
+-- 9. DISTINCT Count: Unique departments
+SELECT COUNT(DISTINCT department) AS Unique_Departments FROM Employees;
+
+-- 10. Highest salary by department (using MAX)
+SELECT department, MAX(salary) AS Highest_Salary
+FROM Employees
+GROUP BY department;
